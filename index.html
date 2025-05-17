@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>İyi ki Doğdun 💌</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+    }
+
+    /* Arka plan videosu */
+    #bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    .envelope {
+      width: 200px;
+      height: 150px;
+      background: #ffb6c1;
+      position: relative;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: transform 0.3s;
+      z-index: 2;
+      margin: auto;
+      top: 40vh;
+      position: relative;
+    }
+
+    .envelope:hover {
+      transform: scale(1.05);
+    }
+
+    .flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 100px solid transparent;
+      border-right: 100px solid transparent;
+      border-bottom: 75px solid #ff9eb3;
+      z-index: 2;
+    }
+
+    .letter {
+      position: absolute;
+      top: 20px;
+      left: 10px;
+      width: 180px;
+      height: 110px;
+      background: white;
+      padding: 10px;
+      box-sizing: border-box;
+      text-align: center;
+      font-size: 18px;
+      color: #e91e63;
+      transform: translateY(100%);
+      opacity: 0;
+      transition: transform 1s ease, opacity 1s ease;
+      z-index: 1;
+    }
+
+    .envelope.open .letter {
+      transform: translateY(-140%);
+      opacity: 1;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      color: #ff4d6d;
+      animation: float 4s linear forwards;
+      opacity: 0.8;
+      z-index: 1;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-100vh) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    .photo {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      opacity: 0;
+      transition: transform 1s ease, opacity 1s ease;
+      z-index: 1;
+    }
+
+    .photo1, .photo2, .photo3, .photo4 {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .show .photo1 { transform: translate(-300px, -100px); opacity: 1; }
+    .show .photo2 { transform: translate(-300px, 100px); opacity: 1; }
+    .show .photo3 { transform: translate(200px, -100px); opacity: 1; }
+    .show .photo4 { transform: translate(200px, 100px); opacity: 1; }
+  </style>
+</head>
+<body>
+
+<!-- Arka Plan Videosu -->
+<video autoplay muted loop id="bg-video">
+  <source src="background-video.mp4" type="video/mp4">
+  Tarayıcınız video etiketini desteklemiyor.
+</video>
+
+<!-- Müzik -->
+<audio id="bg-music" src="muzik.mp3"></audio>
+
+<!-- Fotoğraflar -->
+<img src="foto1.jpg" class="photo photo1">
+<img src="foto2.jpg" class="photo photo2">
+<img src="foto3.jpg" class="photo photo3">
+<img src="foto4.jpg" class="photo photo4">
+
+<!-- Zarf -->
+<div class="envelope" onclick="openEnvelope()">
+  <div class="flap"></div>
+  <div class="letter">İyi ki doğdun, iyikilerim 💖</div>
+</div>
+
+<!-- JavaScript -->
+<script>
+  const music = document.getElementById('bg-music');
+  const body = document.body;
+
+  function openEnvelope() {
+    const envelope = document.querySelector('.envelope');
+    envelope.classList.toggle('open');
+    body.classList.toggle('show');
+
+    if (envelope.classList.contains('open')) {
+      for (let i = 0; i < 30; i++) {
+        setTimeout(createHeart, i * 200);
+      }
+
+      music.play();
+    } else {
+      music.pause();
+      music.currentTime = 0;
+    }
+  }
+
+  function createHeart() {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.innerText = '💖';
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.fontSize = (Math.random() * 10 + 20) + 'px';
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+      heart.remove();
+    }, 4000);
+  }
+</script>
+
+</body>
+</html>
